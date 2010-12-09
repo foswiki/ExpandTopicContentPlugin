@@ -1,0 +1,38 @@
+---+!! !ExpandTopicContentPlugin
+
+%$SHORTDESCRIPTION%
+
+%TOC%
+
+---++ Usage
+
+This plugin implements the macro EXPANDTOPIC which fetches the content of a given topic and returns the content a bit like an INCLUDE does.
+
+But unlike a normal INCLUDE, the EXPANDTOPIC will first expand the macros in the expanded topics (defined by the expand parameter) either unconditionally or the same way macros are expanded when creating a new topic based on a templatetopic. The result can be entity encoded so the result can be place in a hidden form field, or it can be completely hidden.
+
+The applications for this plugin are
+
+   * Enable overwriting existing topics by the expanded content of a template topic. E.g. to create flat static base line document that can be updated
+     from a template topic that contains formatted searches, INCLUDEs, and other macros. This is done by making a creator topic that contains an HTML form that targets the base line topic and contains a hidden input field with ..  &lt;input type="hidden" name="text" value="%<nop>EXPANDTOPIC{"TemplateTopic" encode="entiry"}% /&gt;
+   * INCLUDE a topic without actually including the content in the rendered output but take advantage of the actions a plugin takes on the included topic. An example can be to include a schedule created by Foswiki:Extensions/TimeCalcPlugin and display selected stored time values in the parent topic. Note that the parent topic cannot use preferences defined in the expanded topic. They are only valid in content taken from the expanded topic.
+
+%INCLUDE{"VarEXPANDTOPIC"}%  
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Info
+
+|  Author(s): | Foswiki:Main.KennethLavrsen |
+|  Copyright: | &copy; 2010 |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  09 Dec 2010 (1.0) | Initial release | 
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home page: | http://foswiki.org/bin/view/Extensions/ExpandTopicContentPlugin |
+|  Support: | http://foswiki.org/bin/view/Support/ExpandTopicContentPlugin |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
