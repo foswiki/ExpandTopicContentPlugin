@@ -1,4 +1,5 @@
 # See bottom of file for default license and copyright information
+
 =begin TML
 
 ---+ package ExpandTopicContentPlugin
@@ -56,9 +57,10 @@ use Foswiki::Plugins ();    # For the API version
 # *must* exist in this package. This should always be in the format
 # $Rev: 9771 $ so that Foswiki can determine the checked-in status of the
 # extension.
-our $VERSION = '$Rev: 9771 $';  # Do not change this
-our $RELEASE = '1.0';           # Change this. Keep it in X.Y format
-our $SHORTDESCRIPTION = 'Expands all macros and expandvariables type sections of a topic and return the raw markup';
+our $VERSION = '$Rev: 9771 $';    # Do not change this
+our $RELEASE = '1.0';             # Change this. Keep it in X.Y format
+our $SHORTDESCRIPTION =
+'Expands all macros and expandvariables type sections of a topic and return the raw markup';
 our $NO_PREFS_IN_TOPIC = 1;
 
 =begin TML
@@ -107,7 +109,7 @@ sub initPlugin {
 }
 
 sub _entityEncode {
-    my ( $text ) = @_;
+    my ($text) = @_;
 
     # encode all non-printable 7-bit chars (< \x1f),
     # except \n (\xa) and \r (\xd)
@@ -122,10 +124,11 @@ sub _entityEncode {
 # The function used to handle the %EXAMPLETAG{...}% macro
 # You would have one of these for each macro you want to process.
 sub _EXPANDTOPIC {
-    my($session, $params, $topic, $web, $topicObject) = @_;
+    my ( $session, $params, $topic, $web, $topicObject ) = @_;
+
     # $session  - a reference to the Foswiki session object
     #             (you probably won't need it, but documented in Foswiki.pm)
-    # $params=  - a reference to a Foswiki::Attrs object containing 
+    # $params=  - a reference to a Foswiki::Attrs object containing
     #             parameters.
     #             This can be used as a simple hash that maps parameter names
     #             to values, with _DEFAULT being the name for the default
@@ -140,53 +143,58 @@ sub _EXPANDTOPIC {
     # For example, %EXAMPLETAG{'hamburger' sideorder="onions"}%
     # $params->{_DEFAULT} will be 'hamburger'
     # $params->{sideorder} will be 'onions'
-    
-    my $sourceWeb = $params->{web} || $web;
+
+    my $sourceWeb   = $params->{web}      || $web;
     my $sourceTopic = $params->{_DEFAULT} || $topic;
-    my $encode = $params->{encode} || 'none';
-    my $expand = $params->{expand} || 'all';
-    
+    my $encode      = $params->{encode}   || 'none';
+    my $expand      = $params->{expand}   || 'all';
+
     ( $sourceWeb, $sourceTopic ) =
       Foswiki::Func::normalizeWebTopicName( $sourceWeb, $sourceTopic );
-      
-    my $currentWikiName = Foswiki::Func::getWikiName( );
-    
+
+    my $currentWikiName = Foswiki::Func::getWikiName();
+
     unless ( Foswiki::Func::topicExists( $sourceWeb, $sourceTopic ) ) {
         return 'Topic does not exist';
     }
-    
-    unless ( Foswiki::Func::checkAccessPermission( 'VIEW', $currentWikiName,
-             undef, $sourceTopic, $sourceWeb ) ) {
+
+    unless (
+        Foswiki::Func::checkAccessPermission(
+            'VIEW', $currentWikiName, undef, $sourceTopic, $sourceWeb
+        )
+      )
+    {
         return 'Access to topic not allowed';
     }
-    
+
     my ( undef, $text ) = Foswiki::Func::readTopic( $sourceWeb, $sourceTopic );
-    
+
     # By pushing the topic context we get preferences in the expanded topics
     # set in its local context. Something you cannot do with INCLUDE
     Foswiki::Func::pushTopicContext( $sourceWeb, $sourceTopic );
-    
+
     # Expand like creating new topic from templatetopic
     if ( $expand eq 'create' ) {
-        $text = Foswiki::Func::expandVariablesOnTopicCreation( $text );
+        $text = Foswiki::Func::expandVariablesOnTopicCreation($text);
     }
     elsif ( $expand eq 'all' ) {
-        $text = Foswiki::Func::expandCommonVariables( $text );
+        $text = Foswiki::Func::expandCommonVariables($text);
     }
+
     #else 'none'
-    
+
     # It is tempting to keep the pushed context so preferences are available
     # by the parent but that creates a lot of trouble like cancelling edit
     # ends up in the expanded topic. We must pop back the topic context
     Foswiki::Func::popTopicContext;
-    
+
     if ( $encode eq 'entity' ) {
-        $text = _entityEncode( $text );
+        $text = _entityEncode($text);
     }
     elsif ( $encode eq 'hide' ) {
         $text = '';
     }
-    
+
     return $text;
 }
 
