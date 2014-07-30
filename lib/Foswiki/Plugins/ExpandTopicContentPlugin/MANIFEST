@@ -1,5 +1,6 @@
 # Release manifest for ExpandTopicContentPlugin
 data/System/ExpandTopicContentPlugin.txt 0644 Documentation
 data/System/VarEXPANDTOPIC.txt 0644 Documentation
+data/System/VarREVISIONATTIME.txt 0644 Documentation
 lib/Foswiki/Plugins/ExpandTopicContentPlugin.pm 0644 Perl module
 

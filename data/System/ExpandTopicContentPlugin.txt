@@ -16,7 +16,12 @@ The applications for this plugin are
      from a template topic that contains formatted searches, INCLUDEs, and other macros. This is done by making a creator topic that contains an HTML form that targets the base line topic and contains a hidden input field with ..  &lt;input type="hidden" name="text" value="%<nop>EXPANDTOPIC{"TemplateTopic" encode="entiry"}% /&gt;
    * INCLUDE a topic without actually including the content in the rendered output but take advantage of the actions a plugin takes on the included topic. An example can be to include a schedule created by Foswiki:Extensions/TimeCalcPlugin and display selected stored time values in the parent topic. Note that the parent topic cannot use preferences defined in the expanded topic. They are only valid in content taken from the expanded topic.
 
-%INCLUDE{"VarEXPANDTOPIC"}%  
+This plugin also implements the Macro REVISIONATTIME which is useful to enable linking to previous revisions of a topic based on a date. You will often want this when you update the same topic using EXPANDTOPIC from a template topic on a regular basis and need to be able to see earlier versions for a given date.
+
+
+%INCLUDE{"VarEXPANDTOPIC"}%
+
+%INCLUDE{"VarREVISIONATTIME"}% 
 
 ---++ Installation Instructions
 
@@ -25,11 +30,12 @@ The applications for this plugin are
 ---++ Info
 
 |  Author(s): | Foswiki:Main.KennethLavrsen |
-|  Copyright: | &copy; 2010 |
+|  Copyright: | &copy; 2010-2014 Kenneth Lavrsen |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  30 Jul 2014 (1.1) | Added the REVISIONATTIME macro which is useful link to earlier revisions of a topic based on a date |
 |  09 Dec 2010 (1.0) | Initial release | 
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/bin/view/Extensions/ExpandTopicContentPlugin |

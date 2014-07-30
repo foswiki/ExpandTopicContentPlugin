@@ -56,8 +56,8 @@ use Foswiki::Plugins ();    # For the API version
 # *must* exist in this package. This should always be in the format
 # $Rev: 9771 $ so that Foswiki can determine the checked-in status of the
 # extension.
-our $VERSION = '$Rev: 9771 $';  # Do not change this
-our $RELEASE = '1.0';           # Change this. Keep it in X.Y format
+our $VERSION = '1.1';       # Same as RELEASE
+our $RELEASE = '1.1';       # Change this. Keep it in X.Y format
 our $SHORTDESCRIPTION = 'Expands all macros and expandvariables type sections of a topic and return the raw markup';
 our $NO_PREFS_IN_TOPIC = 1;
 

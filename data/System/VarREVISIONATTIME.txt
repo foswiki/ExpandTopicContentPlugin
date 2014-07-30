@@ -1,0 +1,18 @@
+#VarREVISIONATTIME
+---+++ REVISIONATTIME{"topic" web="..." time="..."} -- returns the revision of a topic that was valid on a given date
+   * The macro will return the Foswiki revision as a number, that was valid on the time given to the macro.
+   * The time can be relative to the current time (always in the past) by giving a negative number in seconds.
+   * If you asks for a revision on date in the format DD Mmm YYYY without a time one minute the time will be set to one minute to midnight end of the given day.
+   * If the date given is older than the first revision of the topic, revision 0 is returned.
+   * Syntax: =%<nop>REVISIONATTIME{"topic" web="webname" time="time format - see below"}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | "topic" | The topic that is expanded. It can be prefixed by the web name in which case the web parameter is ignorred | Current topic |
+     | web="webname" | The web of the topic to be expanded. | Current web |
+     | time="time" | Time can be in the formats DD Mmm YYYY, or in epoch (seconds since 1 Jan 1970), or as a negative number in seconds relative to now. If no time is given the current time is assumed. | "0" |
+   * Example - give the revision of 1 week ago : %<nop>REVISIONATTIME{"TemplateTestTemplate"  time="-604800"}%
+   * Example of Main.WikiUsers a week ago: %REVISIONATTIME{"Main.WikiUsers"  time="-604800"}%
+   * Example of Main.WikiUsers 01 Jan 2012: %REVISIONATTIME{"Main.WikiUsers"  time="01 Jan 2012"}%
+   * Example of Main.WikiUsers 01 Jan 1990: %REVISIONATTIME{"WikiUsers" web="Main" time="01 Jan 1990"}%
+   * Example of defaults: %REVISIONATTIME{}%
+
