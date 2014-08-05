@@ -51,12 +51,11 @@ use warnings;
 
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
+use Foswiki::Time ();       # Time API
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
-# *must* exist in this package. This should always be in the format
-# $Rev: 9771 $ so that Foswiki can determine the checked-in status of the
-# extension.
-our $VERSION = '1.1';       # Same as RELEASE
+# *must* exist in this package.
+our $VERSION = '1.1';       # Do not change this
 our $RELEASE = '1.1';       # Change this. Keep it in X.Y format
 our $SHORTDESCRIPTION = 'Expands all macros and expandvariables type sections of a topic and return the raw markup';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -101,6 +100,8 @@ sub initPlugin {
     # This will be called whenever %EXAMPLETAG% or %EXAMPLETAG{...}% is
     # seen in the topic text.
     Foswiki::Func::registerTagHandler( 'EXPANDTOPIC', \&_EXPANDTOPIC );
+    
+    Foswiki::Func::registerTagHandler( 'REVISIONATTIME', \&_REVISIONATTIME );
 
     # Plugin correctly initialized
     return 1;
@@ -145,6 +146,7 @@ sub _EXPANDTOPIC {
     my $sourceTopic = $params->{_DEFAULT} || $topic;
     my $encode = $params->{encode} || 'none';
     my $expand = $params->{expand} || 'all';
+    my $rev = $params->{rev} || '';   # 0 becomes '' which is what we want
     
     ( $sourceWeb, $sourceTopic ) =
       Foswiki::Func::normalizeWebTopicName( $sourceWeb, $sourceTopic );
@@ -160,7 +162,7 @@ sub _EXPANDTOPIC {
         return 'Access to topic not allowed';
     }
     
-    my ( undef, $text ) = Foswiki::Func::readTopic( $sourceWeb, $sourceTopic );
+    my ( undef, $text ) = Foswiki::Func::readTopic( $sourceWeb, $sourceTopic, $rev );
     
     # By pushing the topic context we get preferences in the expanded topics
     # set in its local context. Something you cannot do with INCLUDE
@@ -188,6 +190,44 @@ sub _EXPANDTOPIC {
     }
     
     return $text;
+}
+
+sub _REVISIONATTIME {
+    my($session, $params, $topic, $web, $topicObject) = @_;
+
+    my $targetWeb = $params->{web} || $web;
+    my $targetTopic = $params->{_DEFAULT} || $topic;
+    my $targetTime = $params->{time} || '+0';
+    
+    $targetTime =~ s/^\s+//; #remove leading spaces
+    $targetTime =~ s/\s+$//; #remove trailing spaces
+    
+    if ( $targetTime =~ /^[+-]/ ) {
+        $targetTime = time() + $targetTime;
+    }
+    else {
+        # If the user asks for a revision on a given date without a time
+        # We assume the user will want the revision no matter what time of
+        # the day it was saved, so we change the time to one minute to
+        # midnight end of the given day.
+        # We will only do this for the DD Mmm YYYY format. Iso time will
+        # be assumed accurate
+        if ( $targetTime =~ /(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)$/i ) {
+            $targetTime = $targetTime . " 23:59";
+        }
+        $targetTime = Foswiki::Time::parseTime( $targetTime );
+    }
+         
+    my $targetRev =
+      Foswiki::Func::getRevisionAtTime( $targetWeb, $targetTopic, $targetTime );
+
+    # If the time is invalid it is probably a date older than the topic
+    # Then the most useful value is to return rev 1
+    return '0' unless defined( $targetRev );
+
+    $targetRev =~ s/\d+\.(\d+)/$1/o;
+    
+    return $targetRev;
 }
 
 1;
