@@ -30,11 +30,12 @@ This plugin also implements the Macro REVISIONATTIME which is useful to enable l
 ---++ Info
 
 |  Author(s): | Foswiki:Main.KennethLavrsen |
-|  Copyright: | &copy; 2010-2014 Kenneth Lavrsen |
+|  Copyright: | &copy; 2010-2016 Kenneth Lavrsen |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  22 Jan 2016 (1.2) | Fixed the documentation for EXPANDTOPIC (hide, not hidden) |
 |  30 Jul 2014 (1.1) | Added the REVISIONATTIME macro which is useful link to earlier revisions of a topic based on a date |
 |  09 Dec 2010 (1.0) | Initial release | 
 |  Dependencies: | %$DEPENDENCIES% |

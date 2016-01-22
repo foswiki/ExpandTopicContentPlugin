@@ -1,12 +1,12 @@
 #VarEXPANDTOPIC
 ---+++ EXPANDTOPIC{"topic" expand="..." encode="..."} -- include an entire topic with macros expanded
    * Returns the topic text from a topic and expands macros as given by parameters. Result can be encoded or hidden.
-   * Syntax: =%<nop>EXPANDTOPIC{"topic" expand="all|create|none" encode="none|hidden|entity"}%=
+   * Syntax: =%<nop>EXPANDTOPIC{"topic" expand="all|create|none" encode="none|hide|entity"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | "topic" | The topic that is expanded. It can be prefixed by the web name in which case the web parameter is ignorred | Current topic |
      | web="webname" | The web of the topic to be expanded. | Current web |
      | expand | expand="all" - all macros are expanded in the scope of the expanded topic. <br /> expand="create" - all macros inside sections of type 'expandvariables' are expanded the same way, and according to the same rules as when a template topic is expanded when creating a new topic <br /> expand="none" - no macros are expanded (they will be later in the context of the parent topic unless encoded). | "all" |
-     | encode | encode="none" - no encoding is done <br /> encode="entity" - the entire expanded topic is entity encoded so it can be contained inside a hidden html text field. <br /> encode="hidden" - the EXPANDTOPIC returns nothing. This can be quite useful if the expanded topic contains Macros from plugins that either performs an action or defines macros that are accessible from the parent topic | "none" |
+     | encode | encode="none" - no encoding is done <br /> encode="entity" - the entire expanded topic is entity encoded so it can be contained inside a hidden html text field. <br /> encode="hide" - the EXPANDTOPIC returns nothing. This can be quite useful if the expanded topic contains Macros from plugins that either performs an action or defines macros that are accessible from the parent topic | "none" |
    * Note: Defined preferences in the expanded topic are not defined in the including parent topic. Preferences defined in the parent are however valid in the expanded topic.
    * Example: %<nop>EXPANDTOPIC{"TemplateTestTemplate" encode="entity" expand="create"}%

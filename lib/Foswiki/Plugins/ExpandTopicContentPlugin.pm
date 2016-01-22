@@ -20,7 +20,7 @@ The following is done to the expanded topic.
      expanded topic.
    * If the parameter encode is set to 'entity' the entire expanded topic is
      entity encoded so it can be contained inside a hidden html text field.
-   * If the parameter encode is set to 'hidden' the EXPANDTOPIC returns nothing.
+   * If the parameter encode is set to 'hide' the EXPANDTOPIC returns nothing.
      This can be quite useful if the expanded topic contains Macros from
      plugins that either performs an action or defines macros that are
      accessible from the parent topic
@@ -33,7 +33,7 @@ The applications for this plugin are
      other macros. This is done by making a creator topic that contains
      an HTML form that targets the base line topic and contains a hidden
      input field with ..  <input type="hidden" name="text"
-     value="%EXPANDTOPIC{"TemplateTopic" encode="entiry"}% />
+     value="%EXPANDTOPIC{"TemplateTopic" encode="entity"}% />
    * INCLUDE a topic without actually including the content in the rendered
      output but take advantage of the actions a plugin takes on the included
      topic. An example can be to include a schedule created by TimeCalcPlugin
@@ -55,8 +55,8 @@ use Foswiki::Time ();       # Time API
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package.
-our $VERSION = '1.1';       # Do not change this
-our $RELEASE = '1.1';       # Change this. Keep it in X.Y format
+our $VERSION = '1.2';       # Do not change this
+our $RELEASE = '1.2';       # Change this. Keep it in X.Y format
 our $SHORTDESCRIPTION = 'Expands all macros and expandvariables type sections of a topic and return the raw markup';
 our $NO_PREFS_IN_TOPIC = 1;
 
